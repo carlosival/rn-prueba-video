@@ -4,7 +4,7 @@ import { token } from '../constants';
 //endpoints
 const apiBaseUrl = 'https://api.themoviedb.org/3';
 const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?`;
-const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?language=en-US`;
+const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming`;
 const topRatedEndpoint = `${apiBaseUrl}/movie/top_rated?language=en-US`;
 const searchMovieEndpoint = `${apiBaseUrl}/search/movie`;
 
@@ -47,8 +47,8 @@ export const fetchTrendingMovies = () =>{
     return apiCall(trendingMoviesEndpoint);
 }
 
-export const fetchUpcommingMovies = () =>{
-    return apiCall(upcomingMoviesEndpoint);
+export const fetchUpcomingMovies = (params) =>{
+    return apiCall(upcomingMoviesEndpoint,params);
 }
 
 export const fetchTopRatedgMovies = () =>{
@@ -59,6 +59,8 @@ export const fetchMoviesDetails = (movieId) =>{
   return apiCall(movieDetailsEndpoint(movieId));
 }
 
+
 export const searchMovies = params=>{
   return apiCall(searchMovieEndpoint, params)
 }
+

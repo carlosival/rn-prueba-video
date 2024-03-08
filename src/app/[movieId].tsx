@@ -13,9 +13,6 @@ import { fetchMoviesDetails, image500 } from '../api/moviedb';
 import YoutubePlayer from "react-native-youtube-iframe";
 
 
-
-
-
 const { width, height } = Dimensions.get('window');
 const ios = Platform.OS == 'ios';
 const topMargin = ios ? '' : 'mt-3'
@@ -46,8 +43,6 @@ export default function MovieDetails() {
 
   const getMovieDetails = async movieId =>{
     const data = await fetchMoviesDetails(movieId);
-    console.log('got movie details: ', data); 
-    console.log('got videos: ', data.videos)
     if(data){ 
       // add static uri video
       setMovie(data);

@@ -1,19 +1,20 @@
 import React,{ useEffect, useState }  from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, Platform, TouchableOpacity, ScrollView } from 'react-native';
-import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline';
+import { ArrowUpOnSquareIcon, Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import TrendingMovies from '../components/TrendingMovies';
 import { StatusBar } from 'expo-status-bar';
 import { styles } from '../theme';
 import Loading from '@/components/Loading';
 import { useRouter } from 'expo-router';
-import { fetchTrendingMovies} from '../api/moviedb'
+import { fetchTrendingMovies, fetchUpcomingMovies } from '../api/moviedb'
+import MovieList from '@/components/MovieList';
 
 const ios = Platform.OS == 'ios'
 
 export default function HomeScreen() {
   const [trending, setTrending] = useState([]); 
-  const [upcomming, setUpcomming] = useState([1,2,3]);
+  const [upcoming, setUpcoming] = useState({page:0,results:[]});
   const [loading, setLoading] = useState(true);
   const router = useRouter();  
 
@@ -21,15 +22,40 @@ export default function HomeScreen() {
     getTrendingMovies();
   },[])
 
+  useEffect(()=>{
+    if(upcoming.page < 1) getUpcomingMovies(1);
+  },[])
+
   const getTrendingMovies = async ()=>{
     const data = await fetchTrendingMovies();
-    console.log('got trending movies: ', data)
     if(data?.results){
-        // add video query
         setTrending(data.results)
         setLoading(false)
     }
 
+  }
+
+  const getUpcomingMovies = async (page) => {
+    const data = await fetchUpcomingMovies({ page });
+    if(data && data.results){
+        console.log('entro por aqui')
+        setUpcoming({page: data.page, results: data.results})
+    }
+  }
+
+
+  const handleNext = async () =>{
+    // get Data from api with page++
+    // replace upcoming if data exist
+    console.log('Next page:', upcoming.page)
+    getUpcomingMovies(upcoming.page+1)
+    
+  }
+
+  const handlePrev = async ()=>{
+    // get Data from api with page-- page have to be > 1
+    // replace upcoming if data exist
+    if(upcoming.page > 1) getUpcomingMovies(upcoming.page-1)
   }
 
   return (
@@ -51,7 +77,7 @@ export default function HomeScreen() {
             loading? (
                 <Loading />
             ):(
-                <ScrollView
+                <ScrollView 
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom: 10}}
         >
@@ -59,7 +85,7 @@ export default function HomeScreen() {
          { trending.length >0 && <TrendingMovies data={trending}/>}
 
          {/* upcoming movies row*/}
-         {/* <TrendingMovies data={trending}/> */}
+          { <MovieList title="Upcoming" data={upcoming} handlePrev={handlePrev} handleNext={handleNext}/>  }
         </ScrollView> 
             )
         }  

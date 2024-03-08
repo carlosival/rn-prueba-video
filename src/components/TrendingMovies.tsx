@@ -17,7 +17,7 @@ export default function TrendingMovies({data}) {
       <Carousel 
       data={data}
       renderItem={({item})=> { 
-        console.log('Item passing to move card',item) 
+         
        return <MovieCard item={item} handleClick={handleClick}/>
     
     }}
