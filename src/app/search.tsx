@@ -1,11 +1,13 @@
 import Loading from "@/components/Loading";
 import { Link, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
-import { Dimensions, Image, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import { XMarkIcon } from "react-native-heroicons/outline";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Dimensions, Platform, Image, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { MagnifyingGlassCircleIcon, XMarkIcon } from "react-native-heroicons/outline";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
 import { searchMovies, image185 } from '../api/moviedb';
+
+const ios = Platform.OS == 'ios';
 
 const { width, height } = Dimensions.get('window');
 export default function SearchScreen() {
@@ -34,18 +36,17 @@ export default function SearchScreen() {
     }
   } 
 
-  const movieName = 'Un texto muy largo'
-
   const handleTextDebounce = useCallback(debounce(handleSearch,400), [])
 
   return (
-    <SafeAreaView className="bg-neutral-800 flex-1">
-      <View className="mx-4 mb-3 flex-row justify-between items-center border border-neutral-500 rounded-full">
+    <View className="bg-neutral-800 flex-1 ">
+    <SafeAreaView className={ios? "-mb-2": "mb-3"}>
+      <View className=" mx-4 mb-3 my-8 flex-row justify-between items-center border border-neutral-500 rounded-full">
         <TextInput 
             onChangeText={handleTextDebounce}
             placeholder='Search Movie'
             placeholderTextColor={'lightgray'}
-            className="pb-1 pl-6 flex-1 text-base font-semibold text-white tracking-wider"
+            className=" pb-1 pl-6 flex-1 text-base font-semibold text-white tracking-wider"
         />
         <TouchableOpacity
           onPress={()=> router.navigate('/')}
@@ -54,6 +55,7 @@ export default function SearchScreen() {
           <XMarkIcon size="23" color="white"/>
         </TouchableOpacity>
       </View>
+      </SafeAreaView> 
       {/* results*/}
       {
         loading?(
@@ -64,7 +66,7 @@ export default function SearchScreen() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingHorizontal: 15}}
             className="space-y-3">
-              <Text className="text-white font-semibold ml-1"> Results ({results.length})</Text>
+              <Text className="text-white font-semibold  ml-1 my-4"> Results ({results.length})</Text>
               <View className="flex-row justify-between flex-wrap">
                   {
                     results.map((item,index)=>{
@@ -92,14 +94,15 @@ export default function SearchScreen() {
               </View>
           </ScrollView>
           ):(
-            <View className="flex-row justify-center">
-                  <Text> No result </Text>
+            <View className="flex-1 justify-center items-center">
+                  {/* <MagnifyingGlassCircleIcon size="128" color="white"/> */}  
             </View>
           ) 
         )
       }
        
-    </SafeAreaView>
+    
+    </View>
   );
 }
 

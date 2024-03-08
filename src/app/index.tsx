@@ -37,7 +37,7 @@ export default function HomeScreen() {
     {/* search bar and logo */} 
         <SafeAreaView className={ios? "-mb-2": "mb-3"}>
             <StatusBar style='light'/>
-            <View className="flex-row justify-between items-center mx-4">
+            <View className="flex-row justify-between items-center mx-4 my-8">
                 <Bars3CenterLeftIcon size="30" strokeWidth={3} color="white"/>
                 <Text className="text-white text-3xl font-bold">
                     <Text style={styles.text}>M</Text>ovies
@@ -59,7 +59,7 @@ export default function HomeScreen() {
          { trending.length >0 && <TrendingMovies data={trending}/>}
 
          {/* upcoming movies row*/}
-         <TrendingMovies data={trending}/>
+         {/* <TrendingMovies data={trending}/> */}
         </ScrollView> 
             )
         }  
