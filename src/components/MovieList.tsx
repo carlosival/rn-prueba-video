@@ -14,8 +14,8 @@ export default function MovieList({title, data, handleNext, handlePrev }) {
         <View className='flex-row justify-between'>
           <Text className='text-white text-2xl mx-1 mb-5 '>{title}</Text>
           <View className='flex-row flex-wrap   mb-5'>
-          <TouchableOpacity onPress={()=>handlePrev()} style={{backgroundColor:theme.background}} className='px-2 py-1 rounded-2xl mx-4'><Text className='text-white text-2xl font-medium'> Prev </Text></TouchableOpacity>
-          <TouchableOpacity onPress={()=>handleNext()} style={{backgroundColor:theme.background}} className='px-2 py-1 rounded-2xl'><Text className=' text-white text-2xl font-medium'> Next </Text></TouchableOpacity>
+          <TouchableOpacity onPress={()=>handlePrev()} style={{backgroundColor:theme.background}} className='px-2 py-1 rounded-2xl mx-4'><Text className='text-white text-1xl font-medium'> Prev </Text></TouchableOpacity>
+          <TouchableOpacity onPress={()=>handleNext()} style={{backgroundColor:theme.background}} className='px-2 py-1 rounded-2xl'><Text className=' text-white text-1xl font-medium'> Next </Text></TouchableOpacity>
           </View>
         </View>
       {/* movie row */}
